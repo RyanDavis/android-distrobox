@@ -1,0 +1,28 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Android Dev Image
+        run: docker build -t android-dev:ndk25 .
+
+      - name: Run Gradle build
+        run: docker run --rm -v ${{ github.workspace }}:/home/dev/workspace android-dev:ndk25 bash -c "cd workspace && gradle build"
+
+      # Optional: Bazel build if your project uses it
+      - name: Run Bazel build
+        run: docker run --rm -v ${{ github.workspace }}:/home/dev/workspace android-dev:ndk25 bash -c "cd workspace && bazel build //..."
+

@@ -1,0 +1,27 @@
+{
+  "name": "Android Dev Container",
+  "image": "android-dev:ndk25",
+  "remoteUser": "dev",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/home/dev/workspace,type=bind",
+    "source=${env:HOME}/Android,target=/opt/android-sdk,type=bind"
+  ],
+  "runArgs": [
+    "--device=/dev/bus/usb",
+    "--group-add=plugdev"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-androidtools.vscode-android",
+        "ms-python.python",
+        "redhat.java",
+        "vscjava.vscode-gradle",
+        "BazelBuild.vscode-bazel"
+      ]
+    }
+  },
+  "postCreateCommand": "gradle --version"
+}
+
